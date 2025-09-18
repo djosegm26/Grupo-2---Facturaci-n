@@ -31,7 +31,9 @@ Kevin Pinto: Apasionado por el desarrollo de software, encargado de proponer sol
 
 Diego Gómez: Estudiante de Ingeniería de Sistemas con interés en desarrollo full-stack. Responsable de la organización y estructuración del proyecto.
 
-Oscar Marín: Creativo y detallista, orientado a mejorar la experiencia visual y usabilidad de la aplicación.
+Sergio Marín: Creativo y detallista, orientado a mejorar la experiencia visual y usabilidad de la aplicación.
+
+Kristina Ospina: Estudiante dedicada y organizada, con interés en la gestión de proyectos y el trabajo colaborativo. Aporta compromiso y apoyo en la planificación de tareas dentro del equipo.
 
 3. Referentes del mercado
 
@@ -61,3 +63,7 @@ Trebble (https://www.trebble.com.co
 )
 
 Referente local que muestra cómo se pueden simplificar los procesos contables en una interfaz clara.
+
+Halltec (https://halltec.co/)
+
+Empresa creadora del API factus utilizado para facturación electrónica.

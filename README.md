@@ -56,17 +56,15 @@ El proyecto toma inspiración y referencia en:
 ---
 
 ## 🧠 Objetivos de Aprendizaje
-- Aplicar conceptos de **desarrollo web moderno con React**.  
+- Aplicar conceptos de **conexión de base de datos mediante sequelize**.  
 - Comprender cómo **consumir y conectar APIs REST** reales.  
 - Implementar **autenticación básica y manejo de sesiones**.  
-- Desarrollar habilidades de **trabajo colaborativo con Git y GitHub**.  
+- Desarrollar habilidades de **trabajo colaborativo con Git y GitHub**.
+
+##funcionamiento
+- para que es proyecto corra es necesario instalar la librería 
+de env con el comando npm install dotenv de esta manera la conexión funcionara correctamente
 
 ---
 
-## 🚀 Estructura del Repositorio
-```bash
-📦 facturacion-electronica
-├── 📁 maqueta-html-css      # Entregable 1: Maqueta inicial estática
-├── 📁 app-react              # Entregable 2: Proyecto React funcional
-├── 📄 README.md              # Descripción general del proyecto
-└── 📄 .gitignore
+

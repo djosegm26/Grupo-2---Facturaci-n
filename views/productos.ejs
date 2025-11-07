@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="C:\Users\diego\OneDrive\Escritorio\Proyecto Facturación\Grupo-2---Facturaci-n\Spring_2\css\style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
     <title>Productos</title>
 </head>
 <body>
@@ -17,10 +17,12 @@
     </header>
 
     <main>
-    <h2>Registro de Productos</h2>
-    <form id="productoForm">
-        <input type="text" id="nombreProducto" placeholder="Producto" required>
-        <input type="number" id="precioProducto" placeholder="Precio" required>
+    
+    <form id="productoForm" method="POST" action="/productos/nuevo">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="text" name="descripcion" placeholder="Descripción">
+        <input type="number" name="precio" placeholder="Precio" required>
+        <input type="number" name="stock" placeholder="Stock" required>
         <button type="submit">Agregar Producto</button>
     </form>
 
@@ -28,14 +30,30 @@
     <table id="tablaProductos">
         <thead>
         <tr>
-            <th>Producto</th>
-            <th>Precio</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
         </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+    <% if (productos && productos.length > 0) { %>
+    <% productos.forEach(producto => { %>
+        <tr>
+        <td><%= producto.nombre %></td>
+        <td><%= producto.descripcion %></td>
+        <td><%= producto.precio %></td>
+        <td><%= producto.stock %></td>
+        </tr>
+    <% }) %>
+    <% } else { %>
+    <tr><td colspan="4">No hay productos registrados.</td></tr>
+    <% } %>
+
+        </tbody>
     </table>
     </main>
 
-    <script src="js/productos.js"></script>
+    <!-- <script src="js/productos.js"></script> -->
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Servicios</title>
-    <link rel="stylesheet" href="C:\Users\diego\OneDrive\Escritorio\Proyecto Facturación\Grupo-2---Facturaci-n\Spring_2\css\style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
     <header>
@@ -18,24 +18,38 @@
 
     <main>
     <h2>Registro de Servicios</h2>
-    <form id="servicioForm">
-        <input type="text" id="nombreServicio" placeholder="Servicio" required>
-        <input type="number" id="precioServicio" placeholder="Precio" required>
-        <button type="submit">Agregar Servicio</button>
+    <form id="servicioForm" method="POST" action="/servicios/nuevo">
+    <input type="text" id="nombreServicio" placeholder="Nombre del Servicio" name="nombre" required>
+    <input type="text" id="descripcionServicio" placeholder="Descripción" name="descripcion">
+    <input type="number" id="precioServicio" placeholder="Precio" name="precio" step="0.01" required>
+    <button type="submit">Agregar Servicio</button>
     </form>
 
     <h2>Lista de Servicios</h2>
     <table id="tablaServicios">
         <thead>
         <tr>
-            <th>Servicios</th>
-            <th>Precio</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
         </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+        <% if (servicios && servicios.length > 0) { %>
+        <% servicios.forEach(servicio => { %>
+        <tr>
+            <td><%= servicio.nombre %></td>
+            <td><%= servicio.descripcion %></td>
+            <td><%= servicio.precio %></td>
+            </tr>
+        <% }) %>
+        <% } else { %>
+        <tr><td colspan="3">No hay servicios registrados.</td></tr>
+        <% } %>
+        </tbody>
     </table>
     </main>
 
-    <script src="js/servicios.js"></script>
+    <!-- <script src="js/servicios.js"></script> -->
 </body>
 </html>

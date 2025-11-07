@@ -1,54 +1,65 @@
-const express = require('express');
-const path = require('path');
-const expressLayouts = require('express-ejs-layouts');
-const fs = require('fs');
+import express from 'express';
+import sequelize from './db/connection.js';
+import path from 'path';
+import { fileURLToPath } from "url";
+import expressLayouts from 'express-ejs-layouts';
 
+// 🔹 Importar rutas
+import clienteRoutes from "./routes/clientes.js";
+import productoRoutes from "./routes/productos.js"; 
+import servicioRoutes from "./routes/servicios.js";
+
+// 🧭 Configurar __dirname en ESModules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// 1️⃣ Middleware para formularios y JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// 1) Configuración de las vistas
+// 2️⃣ Configurar motor de vistas EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(expressLayouts); // permite usar un layout principal
+app.use(expressLayouts);
 
-
-// 2) Archivos estáticos (CSS, imágenes, etc.)
+// 3️⃣ Archivos estáticos (CSS, imágenes, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// 3) Simular "base de datos" con JSON local
-const productsPath = path.join(__dirname, 'data', 'products.json');
-function loadProducts() {
-const raw = fs.readFileSync(productsPath, 'utf8');
-return JSON.parse(raw);
-}
-
-
-// 4) Rutas
+// 4️⃣ Rutas principales (sin duplicar productos ni servicios)
 app.get('/', (req, res) => {
-res.render('login', { title: 'NeoForce Inicio '});
+  res.render('login', { title: 'NeoForce - Inicio de Sesión' });
 });
 
 app.get('/index', (req, res) => {
-res.render('index', { title: 'NeoForce Inicio '});
+  res.render('index', { title: 'NeoForce - Inicio' });
 });
 
-app.get('/clientes', (req, res) => {
-//const products = loadProducts();
-res.render('clientes', { title: 'clientes' });
-});
+// 5️⃣ Rutas funcionales con Sequelize (CRUD)
+app.use("/clientes", clienteRoutes);
+app.use("/productos", productoRoutes);
+app.use("/servicios", servicioRoutes);
 
-app.get('/productos', (req, res) => {
-res.render('productos', { title: 'productos' });
-});
+// 6️⃣ Probar conexión con Sequelize (bloque async)
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('✅ Conexión a MySQL exitosa');
 
-app.get('/servicios', (req, res) => {
-res.render('servicios', { title: 'servicios' });
-});
+    // Si las tablas no existen, puedes habilitar esto temporalmente:
+    // await sequelize.sync({ alter: true });
+    // console.log("📦 Tablas sincronizadas correctamente");
 
-// 5) Iniciar servidor
+  } catch (err) {
+    console.error('❌ Error al conectar a MySQL:', err);
+  }
+})();
+
+// 7️⃣ Iniciar servidor
 app.listen(PORT, () => {
-console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
+

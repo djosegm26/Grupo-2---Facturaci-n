@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Clientes</title>
-    <link rel="stylesheet" href="C:\Users\diego\OneDrive\Escritorio\Proyecto Facturación\Grupo-2---Facturaci-n\Spring_2\css\style.css">
+  <meta charset="UTF-8">
+  <title>Clientes</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <header>
@@ -18,10 +18,12 @@
 
   <main>
     <h2>Registro de Clientes</h2>
-    <form id="clienteForm">
-      <input type="text" id="nombreCliente" placeholder="Nombre" required>
-      <input type="email" id="emailCliente" placeholder="Email" required>
-      <input type="text" id="telefonoCliente" placeholder="Teléfono" required>
+    <form id="clienteForm" action="/clientes/nuevo" method="POST">
+      <input type="text" id="nombreCliente" placeholder="Nombre" name="nombre" required>
+      <input type="text" id="identificacionCliente" placeholder="Identificación" name="identificacion" required>
+      <input type="email" id="emailCliente" placeholder="Email" name="email" required>
+      <input type="text" id="telefonoCliente" placeholder="Teléfono" name="telefono" required>
+      <input type="text" id="direccionCliente" placeholder="Dirección" name="direccion" required>
       <button type="submit">Agregar Cliente</button>
     </form>
 
@@ -32,12 +34,29 @@
           <th>Nombre</th>
           <th>Email</th>
           <th>Teléfono</th>
+          <th>Dirección</th>
+          <th>Identificación</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <% if (clientes && clientes.length > 0) { %>
+          <% clientes.forEach(cliente => { %>
+            <tr>
+              <td><%= cliente.nombre %></td>
+              <td><%= cliente.email %></td>
+              <td><%= cliente.telefono %></td>
+              <td><%= cliente.direccion %></td>
+              <td><%= cliente.identificacion %></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="5">No hay clientes registrados.</td></tr>
+        <% } %>
+      </tbody>
     </table>
   </main>
 
-  <script src="js/clientes.js"></script>
+  <!-- <script src="js/clientes.js"></script> -->
 </body>
 </html>
+

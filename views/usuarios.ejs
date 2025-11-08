@@ -1,0 +1,55 @@
+<%
+// Título dinámico
+const pageTitle = title || "Gestión de Usuarios";
+%>
+
+<section class="container">
+  <h2 class="mt-4 mb-3"><%= pageTitle %></h2>
+
+  <!-- Botón para agregar nuevo usuario -->
+  <div class="mb-3">
+    <a href="/usuarios/nuevo" class="btn btn-primary">➕ Nuevo Usuario</a>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <% if (usuarios && usuarios.length > 0) { %>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Google ID</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% usuarios.forEach(usuario => { %>
+          <tr>
+            <td><%= usuario.id %></td>
+            <td><%= usuario.nombre %></td>
+            <td><%= usuario.email %></td>
+            <td><%= usuario.rol %></td>
+            <td>
+              <% if (usuario.estado) { %>
+                <span class="badge bg-success">Activo</span>
+              <% } else { %>
+                <span class="badge bg-danger">Inactivo</span>
+              <% } %>
+            </td>
+            <td><%= usuario.googleId || "—" %></td>
+            <td>
+              <a href="/usuarios/editar/<%= usuario.id %>" class="btn btn-warning btn-sm">✏️ Editar</a>
+              <a href="/usuarios/eliminar/<%= usuario.id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">🗑️ Eliminar</a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>No hay usuarios registrados aún.</p>
+  <% } %>
+</section>
+

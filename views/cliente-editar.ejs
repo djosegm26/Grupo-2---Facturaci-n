@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Cliente</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Editar Cliente</h1>
+  </header>
+
+  <main>
+    <form action="/clientes/editar/<%= cliente.id %>" method="POST" id="formEditarCliente">
+      <label>Nombre:</label>
+      <input type="text" name="nombre" value="<%= cliente.nombre %>" required>
+
+      <label>Identificación:</label>
+      <input type="text" name="identificacion" value="<%= cliente.identificacion %>" required>
+
+      <label>Email:</label>
+      <input type="email" name="email" value="<%= cliente.email %>" required>
+
+      <label>Teléfono:</label>
+      <input type="text" name="telefono" value="<%= cliente.telefono %>" required>
+
+      <label>Dirección:</label>
+      <input type="text" name="direccion" value="<%= cliente.direccion %>" required>
+
+      <button type="submit">Guardar Cambios</button>
+      <a href="/clientes" class="btn-cancelar">Cancelar</a>
+    </form>
+  </main>
+</body>
+</html>
+

@@ -1,19 +1,19 @@
-<%
-// Título dinámico
-const pageTitle = title || "Gestión de Usuarios";
-%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title || "Gestión de Usuarios" %></title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Gestión de Usuarios</h1>
+  </header>
 
-<section class="container">
-  <h2 class="mt-4 mb-3"><%= pageTitle %></h2>
+  <main>
+    <h2>Lista de Usuarios</h2>
 
-  <!-- Botón para agregar nuevo usuario -->
-  <div class="mb-3">
-    <a href="/usuarios/nuevo" class="btn btn-primary">➕ Nuevo Usuario</a>
-  </div>
-
-  <!-- Tabla de usuarios -->
-  <% if (usuarios && usuarios.length > 0) { %>
-    <table class="table table-striped table-bordered">
+    <table id="tablaUsuarios">
       <thead>
         <tr>
           <th>ID</th>
@@ -22,34 +22,34 @@ const pageTitle = title || "Gestión de Usuarios";
           <th>Rol</th>
           <th>Estado</th>
           <th>Google ID</th>
-          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <% usuarios.forEach(usuario => { %>
-          <tr>
-            <td><%= usuario.id %></td>
-            <td><%= usuario.nombre %></td>
-            <td><%= usuario.email %></td>
-            <td><%= usuario.rol %></td>
-            <td>
-              <% if (usuario.estado) { %>
-                <span class="badge bg-success">Activo</span>
-              <% } else { %>
-                <span class="badge bg-danger">Inactivo</span>
-              <% } %>
-            </td>
-            <td><%= usuario.googleId || "—" %></td>
-            <td>
-              <a href="/usuarios/editar/<%= usuario.id %>" class="btn btn-warning btn-sm">✏️ Editar</a>
-              <a href="/usuarios/eliminar/<%= usuario.id %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este usuario?');">🗑️ Eliminar</a>
-            </td>
-          </tr>
-        <% }) %>
+        <% if (usuarios && usuarios.length > 0) { %>
+          <% usuarios.forEach(usuario => { %>
+            <tr data-id="<%= usuario.id %>">
+              <td><%= usuario.id %></td>
+              <td><%= usuario.nombre %></td>
+              <td><%= usuario.email %></td>
+              <td><%= usuario.rol %></td>
+              <td>
+                <% if (usuario.estado) { %>
+                  <span class="badge bg-success">Activo</span>
+                <% } else { %>
+                  <span class="badge bg-danger">Inactivo</span>
+                <% } %>
+              </td>
+              <td><%= usuario.googleId || "—" %></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr><td colspan="6">No hay usuarios registrados.</td></tr>
+        <% } %>
       </tbody>
     </table>
-  <% } else { %>
-    <p>No hay usuarios registrados aún.</p>
-  <% } %>
-</section>
+  </main>
+</body>
+</html>
+
+
 

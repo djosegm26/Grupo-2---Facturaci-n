@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Servicio</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Editar Servicio</h1>
+  </header>
+
+  <main>
+    <form action="/servicios/editar/<%= servicio.id %>" method="POST" id="formEditarServicio">
+      <label>Nombre:</label>
+      <input type="text" name="nombre" value="<%= servicio.nombre %>" required>
+
+      <label>Descripción:</label>
+      <input type="text" name="descripcion" value="<%= servicio.descripcion %>">
+
+      <label>Precio:</label>
+      <input type="number" name="precio" value="<%= servicio.precio %>" required step="0.01">
+
+      <button type="submit">Guardar Cambios</button>
+      <a href="/servicios" class="btn-cancelar">Cancelar</a>
+    </form>
+  </main>
+</body>
+</html>
+

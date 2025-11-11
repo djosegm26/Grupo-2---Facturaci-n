@@ -37,6 +37,43 @@ router.post("/nuevo", async (req, res) => {
   }
 });
 
+// EDITAR mostrar
+router.get("/editar/:id", async (req, res) => {
+  try {
+    const cliente = await Cliente.findByPk(req.params.id);
+    if (!cliente) return res.status(404).send("Cliente no encontrado");
+    res.render("cliente-editar", { title: "Editar Cliente", cliente });
+  } catch (err) {
+    console.error(err); res.status(500).send("Error");
+  }
+});
+
+// EDITAR procesar
+router.post("/editar/:id", async (req, res) => {
+  try {
+    const { nombre, identificacion, telefono, email } = req.body;
+    const cliente = await Cliente.findByPk(req.params.id);
+    if (!cliente) return res.status(404).send("Cliente no encontrado");
+    await cliente.update({ nombre, identificacion, telefono, email });
+    res.redirect("/clientes");
+  } catch (err) {
+    console.error(err); res.status(500).send("Error al actualizar");
+  }
+});
+
+// ELIMINAR
+router.post("/eliminar/:id", async (req, res) => {
+  try {
+    const cliente = await Cliente.findByPk(req.params.id);
+    if (!cliente) return res.status(404).send("Cliente no encontrado");
+    await cliente.destroy();
+    res.redirect("/clientes");
+  } catch (err) {
+    console.error(err); res.status(500).send("Error al eliminar");
+  }
+});
+
+
 
 export default router;
 

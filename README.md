@@ -62,8 +62,8 @@ El proyecto toma inspiración y referencia en:
 - Desarrollar habilidades de **trabajo colaborativo con Git y GitHub**.
 
 ##funcionamiento
-- para que es proyecto corra es necesario instalar la librería 
-de env con el comando npm install dotenv de esta manera la conexión funcionara correctamente
+- Para que es proyecto corra es necesario instalar la librería 
+de env con el comando "npm install dotenv" de esta manera la conexión funcionará correctamente.
 
 ---
 

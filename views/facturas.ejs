@@ -1,0 +1,55 @@
+<!-- views/facturas.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Facturas</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Facturas</h1>
+  </header>
+
+  <main>
+    <a href="/facturas/nuevo" class="btn-estilo1">Nueva Factura</a>
+
+
+    <h2>Listado de facturas</h2>
+    <table id="tablaFacturas">
+      <thead>
+        <tr>
+          <th>Número</th>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (facturas && facturas.length > 0) { %>
+          <% for (const f of facturas) { %>
+            <tr>
+              <td><%= f.numero_factura %></td>
+              <td><%= f.fecha_emision %></td>
+              <td><%= f.cliente_id %></td>
+              <td><%= parseFloat(f.total).toFixed(2) %></td>
+              <td><%= f.estado %></td>
+              <td style="text-align:center;">
+                <a href="/facturas/ver/<%= f.id %>" 
+                class="btn-ver"
+                title="Ver factura">
+                👁 Ver
+                </a>
+              </td>
+            </tr>
+          <% } %>
+        <% } else { %>
+          <tr><td colspan="6">No hay facturas registradas.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

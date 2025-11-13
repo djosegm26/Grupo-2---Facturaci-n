@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Factura <%= factura.numero_factura %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    header h1 { margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f5f5f5; }
+    section { margin-bottom: 1.5rem; }
+    .btn {
+      display: inline-block;
+      background: #14334d;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+    .btn:hover { background: #14334d; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Factura N° <%= factura.numero_factura %></h1>
+  </header>
+
+  <section>
+    <p><strong>Fecha de emisión:</strong> 
+      <%= new Date(factura.fecha_emision).toISOString().slice(0,10) %>
+    </p>
+    <p><strong>ID Cliente:</strong> <%= factura.cliente_id %></p>
+    <p><strong>ID Usuario (Emisor):</strong> <%= factura.usuario_id %></p>
+    <p><strong>Estado:</strong> <%= factura.estado %></p>
+  </section>
+
+  <hr>
+
+  <h3>Detalles de la factura</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Producto / Servicio</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (detalles.length > 0) { %>
+        <% detalles.forEach((d, i) => { %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td>
+              <% if (d.producto_id) { %>
+                Producto (ID: <%= d.producto_id %>)
+              <% } else if (d.servicio_id) { %>
+                Servicio (ID: <%= d.servicio_id %>)
+              <% } else { %>
+                -
+              <% } %>
+            </td>
+            <td><%= d.descripcion || "-" %></td>
+            <td><%= d.cantidad %></td>
+            <td>₡<%= parseFloat(d.precio_unitario || 0).toFixed(2) %></td>
+            <td>₡<%= parseFloat(d.subtotal || 0).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="6" style="text-align:center;">Sin detalles registrados</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <section style="margin-top: 1rem;">
+    <p><strong>Subtotal:</strong> ₡<%= parseFloat(factura.subtotal || 0).toFixed(2) %></p>
+    <p><strong>Impuestos:</strong> ₡<%= parseFloat(factura.impuestos || 0).toFixed(2) %></p>
+    <p><strong>Total:</strong> ₡<%= parseFloat(factura.total || 0).toFixed(2) %></p>
+  </section>
+
+  <a href="/facturas" class="btn">⬅ Volver al listado</a>
+</body>
+</html>
+

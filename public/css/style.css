@@ -13,7 +13,7 @@
   --color-boton-login: #334452;         /* Botón principal del login */
   --color-editar: #dfb948;              /* Botón editar (amarillo) */
   --color-eliminar: #882731;            /* Botón eliminar (rojo oscuro) */
-}
+} 
 
 /* =========================================================
 🧱 ESTILO GENERAL
@@ -334,6 +334,44 @@ h1 {
   }
 }
 
+nav a.active {
+  border-bottom: 2px solid #fff;
+  font-weight: bold;
+}
 
+.btn-ver {
+  display: inline-block;
+  background: #14334d;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.btn-ver:hover {
+  background: #14334d;
+}
+td {
+  vertical-align: middle;
+  text-align: center;
+}
 
+.btn-estilo1 {
+  background: linear-gradient(145deg, #14334d, #14334d);
+  color: #b9bbc7;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+.btn-estilo1:hover {
+  background: linear-gradient(145deg, #14334d, #14334d);
+  color: #ffffff;
+  transform: scale(1.05);
+}
 

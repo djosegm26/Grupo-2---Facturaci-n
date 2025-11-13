@@ -1,0 +1,133 @@
+<!-- views/factura-nuevo.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Nueva Factura</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <header><h1>Registrar nueva factura</h1></header>
+
+  <main>
+    <form id="facturaForm">
+      <div>
+        <label>Número factura</label>
+        <input id="numeroFactura" name="numero_factura" required>
+      </div>
+      <div>
+        <label>Fecha emisión</label>
+        <input id="fechaEmision" type="date" name="fecha_emision" required value="<%= new Date().toISOString().slice(0,10) %>">
+      </div>
+      <div>
+        <label>Cliente</label>
+        <select id="clienteSelect" required>
+          <option value="">-- Selecciona cliente --</option>
+          <% clientes.forEach(c => { %>
+            <option value="<%= c.id %>"><%= c.nombre %> - <%= c.identificacion %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label>Usuario (emisor)</label>
+        <select id="usuarioSelect" required>
+          <option value="">-- Selecciona usuario --</option>
+          <% usuarios.forEach(u => { %>
+            <option value="<%= u.id %>"><%= u.nombre %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <hr>
+
+      <h3>Items</h3>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <label>Tipo</label>
+        <select id="tipoItem">
+          <option value="producto">Producto</option>
+          <option value="servicio">Servicio</option>
+        </select>
+
+        <!-- Producto -->
+        <div>
+          <label>Producto</label>
+          <select id="productoSelect">
+            <option value="">-- Producto --</option>
+            <% productos.forEach(p => { %>
+              <option value="<%= p.id %>" data-precio="<%= p.precio %>">
+                <%= p.nombre %> (₡<%= p.precio %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <!-- Servicio -->
+        <div>
+          <label>Servicio</label>
+          <select id="servicioSelect" style="display:none;">
+            <option value="">-- Servicio --</option>
+            <% servicios.forEach(s => { %>
+              <option value="<%= s.id %>" data-precio="<%= s.precio %>">
+                <%= s.nombre %> (₡<%= s.precio %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div>
+          <label>Descripción</label>
+          <input id="descItem" placeholder="Descripción (opcional)">
+        </div>
+
+        <div>
+          <label>Cantidad</label>
+          <input id="cantidadItem" type="number" min="1" value="1">
+        </div>
+
+        <div>
+          <label>Precio</label>
+          <input id="precioItem" type="number" step="0.01" value="0">
+        </div>
+
+        <!-- ✅ type="button" evita recarga del form -->
+        <button id="agregarItem" type="button" class="btn">Agregar</button>
+      </div>
+
+      <table id="itemsFactura">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Cant</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div>
+        <label>Subtotal:</label>
+        <span id="subtotal">0.00</span>
+      </div>
+      <div>
+        <label>Impuestos:</label>
+        <input id="impuestos" type="number" step="0.01" value="0">
+      </div>
+      <div>
+        <label>Total:</label>
+        <span id="total">0.00</span>
+      </div>
+
+      <div style="margin-top:1em;">
+        <button type="submit" class="btn">Registrar factura</button>
+        <a href="/facturas" class="btn">Cancelar</a>
+      </div>
+    </form>
+  </main>
+
+  <!-- ✅ Asegúrate que la ruta sea correcta -->
+  <script src="/js/facturas.js"></script>
+</body>
+</html>

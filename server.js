@@ -17,6 +17,8 @@ import usuarioRoutes from "./routes/usuarios.js";
 import clienteRoutes from "./routes/clientes.js";
 import productoRoutes from "./routes/productos.js";
 import servicioRoutes from "./routes/servicios.js";
+import facturaRoutes from "./routes/facturas.js";
+
 
 // 📁 Configurar __dirname (por ser módulo ES)
 const __filename = fileURLToPath(import.meta.url);
@@ -68,6 +70,8 @@ app.use("/usuarios", usuarioRoutes);
 app.use("/clientes", clienteRoutes);
 app.use("/productos", productoRoutes);
 app.use("/servicios", servicioRoutes);
+app.use("/facturas", facturaRoutes);
+
 
 // 🌐 Página principal -> Login con layout personalizado
 app.get("/", (req, res) => {

@@ -18,6 +18,8 @@ import clienteRoutes from "./routes/clientes.js";
 import productoRoutes from "./routes/productos.js";
 import servicioRoutes from "./routes/servicios.js";
 import facturaRoutes from "./routes/facturas.js";
+import factusRoutes from "./routes/factus.js";
+
 
 
 // 📁 Configurar __dirname (por ser módulo ES)
@@ -71,6 +73,7 @@ app.use("/clientes", clienteRoutes);
 app.use("/productos", productoRoutes);
 app.use("/servicios", servicioRoutes);
 app.use("/facturas", facturaRoutes);
+app.use("/factus", factusRoutes);
 
 
 // 🌐 Página principal -> Login con layout personalizado

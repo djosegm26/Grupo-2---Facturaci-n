@@ -14,7 +14,6 @@
   <main>
     <a href="/facturas/nuevo" class="btn-estilo1">Nueva Factura</a>
 
-
     <h2>Listado de facturas</h2>
     <table id="tablaFacturas">
       <thead>
@@ -37,11 +36,24 @@
               <td><%= parseFloat(f.total).toFixed(2) %></td>
               <td><%= f.estado %></td>
               <td style="text-align:center;">
-                <a href="/facturas/ver/<%= f.id %>" 
-                class="btn-ver"
-                title="Ver factura">
-                👁 Ver
+                
+                <!-- Botón Ver -->
+                <a 
+                  href="/facturas/ver/<%= f.id %>" 
+                  class="btn-ver"
+                  title="Ver factura">
+                  👁 Ver
                 </a>
+
+                <!-- Botón Enviar a Factus (SIN recargar la página) -->
+                <button 
+                onclick="enviarFactus('<%= f.id %>')" 
+                class="btn btn-success" 
+                style="margin-left: 5px;">
+                🚀 Enviar a Factus
+                </button>
+
+
               </td>
             </tr>
           <% } %>
@@ -51,5 +63,33 @@
       </tbody>
     </table>
   </main>
+
+  <!-- SCRIPT PARA ENVIAR FACTURA A FACTUS Y ABRIR EL PDF -->
+<script>
+async function enviarFactus(id) {
+  try {
+    const respuesta = await fetch('/factus/enviar/' + id);
+    const data = await respuesta.json();
+
+    if (!data.ok) {
+      alert("❌ Error: " + JSON.stringify(data.error));
+      return;
+    }
+
+    if (data.pdf_url) {
+      window.open(data.pdf_url, "_blank");
+    } else {
+      alert("Factura enviada pero no llegó URL de PDF.");
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Error al conectar con el servidor.");
+  }
+}
+</script>
+
+
 </body>
 </html>
+

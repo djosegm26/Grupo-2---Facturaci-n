@@ -2,45 +2,73 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  
+  <!-- Título dinámico -->
   <title><%= title || "NeoForce" %></title>
+
+  <!-- Estilos globales -->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
+
+  <!-- ==========================
+      ENCABEZADO PRINCIPAL
+  =========================== -->
   <header class="bg-dark text-white p-3 mb-4">
     <div class="container d-flex justify-content-between align-items-center">
+
+      <!-- Logo / Título -->
       <h1 style="display:inline-block; vertical-align:middle; margin:0 0 26px 0; font-size:2.8rem;">
-    NeoForce
-  </h1>
-    <nav>
-  <a href="/index" class="text-white me-3">Inicio</a>
-  <a href="/usuarios" class="text-white me-3">Usuarios</a>
-  <a href="/clientes" class="text-white me-3">Clientes</a>
-  <a href="/productos" class="text-white me-3">Productos</a>
-  <a href="/servicios" class="text-white me-3">Servicios</a>
-  <a href="/facturas" class="text-white me-3 <%= title === 'Facturas' || title === 'Nueva Factura' ? 'active' : '' %>">Facturas</a>
+        NeoForce
+      </h1>
 
+      <!-- ==========================
+          MENÚ DE NAVEGACIÓN
+      =========================== -->
+      <nav>
+        <a href="/index" class="text-white me-3">Inicio</a>
+        <a href="/usuarios" class="text-white me-3">Usuarios</a>
+        <a href="/clientes" class="text-white me-3">Clientes</a>
+        <a href="/productos" class="text-white me-3">Productos</a>
+        <a href="/servicios" class="text-white me-3">Servicios</a>
 
-  <% if (!user) { %>
-    <a href="/auth/google" class="text-white me-3">Login</a>
-  <% } else { %>
-    <a href="/auth/logout" class="text-white">Salir</a>
-  <% } %>
-    </nav>
+        <!-- Activa estilo cuando la vista es Facturas -->
+        <a 
+          href="/facturas" 
+          class="text-white me-3 <%= title === 'Facturas' || title === 'Nueva Factura' ? 'active' : '' %>"
+        >
+          Facturas
+        </a>
+
+        <!-- Login / Logout según sesión -->
+        <% if (!user) { %>
+          <a href="/auth/google" class="text-white me-3">Login</a>
+        <% } else { %>
+          <a href="/auth/logout" class="text-white">Salir</a>
+        <% } %>
+
+      </nav>
 
     </div>
   </header>
 
+  <!-- ==========================
+      CONTENIDO PRINCIPAL
+  =========================== -->
   <main class="container">
     <%- body %>
   </main>
 
+  <!-- ==========================
+      PIE DE PÁGINA
+  =========================== -->
   <footer class="bg-light text-center p-3 mt-4">
     <small>© 2025 NeoForce - Todos los derechos reservados</small>
   </footer>
 
+  <!-- Script opcional para cierre de sesión -->
   <script>
-    // Esta función redirige correctamente al logout de Google
     async function logout() {
       try {
         await fetch('/logout');
@@ -50,8 +78,10 @@
       }
     }
   </script>
+
 </body>
 </html>
+
 
 
 

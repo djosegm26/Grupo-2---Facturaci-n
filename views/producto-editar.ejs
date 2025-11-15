@@ -2,32 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+
+  <!-- Título de la pestaña -->
   <title>Editar Producto</title>
+
+  <!-- Hoja de estilos general del proyecto -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body>
+  <!-- Encabezado principal de la página -->
   <header>
     <h1>Editar Producto</h1>
   </header>
 
   <main>
-    <form action="/productos/editar/<%= producto.id %>" method="POST" id="formEditarProducto">
+    <!-- 
+      Formulario para editar un producto.
+      El action envía un POST hacia la ruta que actualiza el producto según su ID.
+    -->
+    <form 
+      action="/productos/editar/<%= producto.id %>" 
+      method="POST" 
+      id="formEditarProducto"
+    >
+
+      <!-- Campo: Nombre del producto -->
       <label>Nombre:</label>
-      <input type="text" name="nombre" value="<%= producto.nombre %>" required>
+      <input 
+        type="text" 
+        name="nombre" 
+        value="<%= producto.nombre %>" 
+        required
+      >
 
+      <!-- Campo: Descripción del producto -->
       <label>Descripción:</label>
-      <input type="text" name="descripcion" value="<%= producto.descripcion %>">
+      <input 
+        type="text" 
+        name="descripcion" 
+        value="<%= producto.descripcion %>"
+      >
 
+      <!-- Campo: Precio del producto -->
       <label>Precio:</label>
-      <input type="number" name="precio" value="<%= producto.precio %>" required step="0.01">
+      <input 
+        type="number" 
+        name="precio" 
+        value="<%= producto.precio %>" 
+        required 
+        step="0.01"   <!-- Permite decimales -->
+      >
 
+      <!-- Campo: Stock disponible -->
       <label>Stock:</label>
-      <input type="number" name="stock" value="<%= producto.stock %>" required>
+      <input 
+        type="number" 
+        name="stock" 
+        value="<%= producto.stock %>" 
+        required
+      >
 
+      <!-- Botón para enviar el formulario -->
       <button type="submit">Guardar Cambios</button>
+
+      <!-- Botón enlace para regresar a la lista de productos -->
       <a href="/productos" class="btn-cancelar">Cancelar</a>
+
     </form>
   </main>
+
 </body>
 </html>
+
 

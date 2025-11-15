@@ -1,8 +1,8 @@
-// 🌱 Cargar variables de entorno
+// Cargar variables de entorno
 import dotenv from "dotenv";
 dotenv.config(); // ⚠️ Siempre antes que cualquier otro import que use variables de entorno
 
-// 📦 Importaciones principales
+// Importaciones principales
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -11,7 +11,7 @@ import session from "express-session";
 import passport from "./passport/google.js";
 import sequelize from "./db/connection.js";
 
-// 🧩 Rutas
+// Rutas
 import authRoutes from "./routes/auth.js";
 import usuarioRoutes from "./routes/usuarios.js";
 import clienteRoutes from "./routes/clientes.js";
@@ -22,16 +22,16 @@ import factusRoutes from "./routes/factus.js";
 
 
 
-// 📁 Configurar __dirname (por ser módulo ES)
+// Configurar __dirname (por ser módulo ES)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🚀 Inicializar app
+// Inicializar app
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 //
-// 🧠 CONFIGURACIÓN DE SESIÓN Y PASSPORT
+// CONFIGURACIÓN DE SESIÓN Y PASSPORT
 //
 app.use(
   session({
@@ -50,14 +50,14 @@ app.use((req, res, next) => {
 });
 
 //
-// 🧱 MIDDLEWARES
+// MIDDLEWARES
 //
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public"))); // Archivos estáticos
 
 //
-// 🎨 CONFIGURACIÓN DE EJS + LAYOUTS
+// CONFIGURACIÓN DE EJS + LAYOUTS
 //
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -65,7 +65,7 @@ app.use(expressLayouts);
 app.set("layout", "layout"); // 👈 layout.ejs será el diseño base por defecto
 
 //
-// 🧭 RUTAS
+// RUTAS
 //
 app.use("/auth", authRoutes);
 app.use("/usuarios", usuarioRoutes);
@@ -76,7 +76,7 @@ app.use("/facturas", facturaRoutes);
 app.use("/factus", factusRoutes);
 
 
-// 🌐 Página principal -> Login con layout personalizado
+// Página principal -> Login con layout personalizado
 app.get("/", (req, res) => {
   res.render("login", { 
     title: "NeoForce - Inicio de Sesión",
@@ -84,7 +84,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// 🌐 Dashboard o página principal del sistema
+// Dashboard o página principal del sistema
 app.get("/index", (req, res) => {
   // Si no está autenticado, redirige al login
   if (!req.isAuthenticated()) {
@@ -93,7 +93,7 @@ app.get("/index", (req, res) => {
   res.render("index", { title: "NeoForce - Inicio" });
 });
 
-// 🚪 Cerrar sesión
+// Cerrar sesión
 app.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
@@ -102,7 +102,7 @@ app.get("/logout", (req, res, next) => {
 });
 
 //
-// 💾 CONEXIÓN Y SINCRONIZACIÓN CON MYSQL
+// CONEXIÓN Y SINCRONIZACIÓN CON MYSQL
 //
 (async () => {
   try {
@@ -113,7 +113,7 @@ app.get("/logout", (req, res, next) => {
     await sequelize.sync({ alter: true });
     console.log("📦 Tablas sincronizadas correctamente");
 
-    // 🚀 Iniciar servidor después de conectar a DB
+    // Iniciar servidor después de conectar a DB
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     });

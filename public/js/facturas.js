@@ -1,6 +1,9 @@
+// Espera a que el DOM esté completamente cargado antes de ejecutar el script
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ JS facturas cargado correctamente");
+  
+  console.log("JS facturas cargado correctamente");
 
+  // Referencias a elementos del formulario
   const form = document.getElementById("facturaForm");
   const selectTipo = document.getElementById("tipoItem");
   const selectProducto = document.getElementById("productoSelect");
@@ -9,17 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const precioInput = document.getElementById("precioItem");
   const descripcionInput = document.getElementById("descItem");
   const btnAgregar = document.getElementById("agregarItem");
+
+  // Referencias a tabla y totales
   const tbody = document.querySelector("#itemsFactura tbody");
   const subtotalEl = document.getElementById("subtotal");
   const impuestosEl = document.getElementById("impuestos");
   const totalEl = document.getElementById("total");
 
+  // Verifica que el botón Agregar exista
   if (!btnAgregar) {
-    console.error("❌ No se encontró el botón Agregar.");
+    console.error("No se encontró el botón Agregar.");
     return;
   }
 
-  // 🔹 Mostrar u ocultar selects según el tipo
+  /**
+   * Muestra u oculta los selectores según el tipo (producto o servicio)
+   */
   function actualizarSelects() {
     if (selectTipo.value === "producto") {
       selectProducto.style.display = "";
@@ -28,12 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
       selectProducto.style.display = "none";
       selectServicio.style.display = "";
     }
-    actualizarPrecioAutomatico();
+    actualizarPrecioAutomatico(); // Actualiza el precio al cambiar de tipo
   }
-  selectTipo.addEventListener("change", actualizarSelects);
-  actualizarSelects();
 
-  // 🔹 Asignar precio automáticamente según selección
+  // Detecta cambios en el tipo de ítem
+  selectTipo.addEventListener("change", actualizarSelects);
+  actualizarSelects(); // Inicializa la vista
+
+  /**
+   * Asigna el precio automáticamente según el producto o servicio seleccionado
+   */
   function actualizarPrecioAutomatico() {
     if (selectTipo.value === "producto") {
       const selected = selectProducto.options[selectProducto.selectedIndex];
@@ -43,13 +55,16 @@ document.addEventListener("DOMContentLoaded", () => {
       precioInput.value = selected ? selected.dataset.precio || 0 : 0;
     }
   }
+
+  // Actualiza precio cuando cambia el producto o servicio
   selectProducto.addEventListener("change", actualizarPrecioAutomatico);
   selectServicio.addEventListener("change", actualizarPrecioAutomatico);
 
-  // 🔹 Agregar item a la tabla
+  /**
+   * Agrega un ítem a la tabla
+   */
   btnAgregar.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log("🟢 Click en Agregar");
 
     const tipo = selectTipo.value;
     const producto_id = tipo === "producto" ? selectProducto.value : null;
@@ -59,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const precio_unitario = parseFloat(precioInput.value || 0);
     const subtotal = +(cantidad * precio_unitario).toFixed(2);
 
+    // Validaciones básicas
     if (tipo === "producto" && !producto_id) {
       alert("Selecciona un producto");
       return;
@@ -68,6 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Crea una nueva fila en la tabla
     const tr = document.createElement("tr");
     tr.dataset.subtotal = subtotal;
     tr.dataset.productoId = producto_id || "";
@@ -76,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tr.dataset.precioUnitario = precio_unitario;
     tr.dataset.descripcion = descripcion;
 
+    // Contenido HTML de la fila
     tr.innerHTML = `
       <td>${tipo}</td>
       <td>${descripcion || "-"}</td>
@@ -84,11 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
       <td>${subtotal.toFixed(2)}</td>
       <td><button type="button" class="btnEliminar">🗑</button></td>
     `;
+
+    // Agrega la fila al cuerpo de la tabla
     tbody.appendChild(tr);
+
+    // Recalcula los totales
     actualizarTotales();
   });
 
-  // 🔹 Eliminar fila
+  /**
+   * Elimina una fila cuando se presiona el botón correspondiente
+   */
   tbody.addEventListener("click", (e) => {
     if (e.target.classList.contains("btnEliminar")) {
       e.target.closest("tr").remove();
@@ -96,25 +120,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 🔹 Calcular totales con impuesto en %
+  /**
+   * Recalcula subtotal, impuestos y total
+   */
   function actualizarTotales() {
     let sub = 0;
+
+    // Suma los subtotales almacenados en los dataset de cada fila
     tbody.querySelectorAll("tr").forEach(tr => {
       sub += parseFloat(tr.dataset.subtotal);
     });
+
     subtotalEl.textContent = sub.toFixed(2);
 
-    const impuestoPorc = parseFloat(impuestosEl.value || 0); // porcentaje
+    const impuestoPorc = parseFloat(impuestosEl.value || 0);
     const total = sub + (sub * impuestoPorc / 100);
+
     totalEl.textContent = total.toFixed(2);
   }
 
+  // Recalcula totales al cambiar el porcentaje de impuestos
   impuestosEl.addEventListener("input", actualizarTotales);
 
-  // 🔹 Enviar factura al backend
+  /**
+   * Envía la información de la factura al backend
+   */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Captura valores generales de la factura
     const numero_factura = document.getElementById("numeroFactura").value;
     const fecha_emision = document.getElementById("fechaEmision").value;
     const cliente_id = document.getElementById("clienteSelect").value;
@@ -123,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const subtotal = parseFloat(subtotalEl.textContent || 0);
     const total = parseFloat(totalEl.textContent || 0);
 
+    // Construye el array de ítems desde la tabla
     const items = [];
     tbody.querySelectorAll("tr").forEach(tr => {
       items.push({
@@ -135,11 +170,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    // Validación final
     if (!numero_factura || !fecha_emision || !cliente_id || !usuario_id || items.length === 0) {
       alert("Por favor completa todos los campos y agrega al menos un ítem.");
       return;
     }
 
+    // Construcción del objeto payload a enviar
     const payload = {
       numero_factura,
       fecha_emision,
@@ -151,9 +188,8 @@ document.addEventListener("DOMContentLoaded", () => {
       items
     };
 
-    console.log("📦 Enviando payload:", payload);
-
     try {
+      // Envía la factura al backend
       const res = await fetch("/facturas/nuevo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -161,17 +197,19 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const data = await res.json();
-      console.log("📩 Respuesta del servidor:", data);
 
+      // Manejo de respuesta
       if (data.ok) {
-        alert("✅ Factura registrada correctamente");
+        alert("Factura registrada correctamente");
         window.location.href = "/facturas";
       } else {
-        alert("❌ Error: " + (data.message || "No se pudo crear la factura"));
+        alert("Error: " + (data.message || "No se pudo crear la factura"));
       }
+
     } catch (err) {
       console.error("Error enviando factura:", err);
       alert("Error al enviar la factura.");
     }
   });
 });
+

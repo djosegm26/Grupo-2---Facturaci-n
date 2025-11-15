@@ -2,25 +2,45 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Hoja de estilos general -->
     <link rel="stylesheet" href="/public/css/style.css">
+
+    <!-- Título de la página -->
     <title>Productos</title>
 </head>
+
 <body>
+    <!-- Encabezado principal -->
     <header>
       <h1>Gestión de Productos</h1>
     </header>
 
     <main>
-      <!-- Formulario para crear producto -->
+
+      <!-- ============================================================
+          FORMULARIO PARA CREAR UN NUEVO PRODUCTO
+          Envia un POST a /productos/nuevo para registrar
+      ============================================================ -->
       <form id="productoForm" method="POST" action="/productos/nuevo">
         <input type="text" name="nombre" placeholder="Nombre" required>
+
         <input type="text" name="descripcion" placeholder="Descripción">
+
+        <!-- Precio con decimales -->
         <input type="number" step="0.01" name="precio" placeholder="Precio" required>
+
         <input type="number" name="stock" placeholder="Stock" required>
+
         <button type="submit">Agregar Producto</button>
       </form>
 
+      <!-- Título de la tabla de productos -->
       <h2>Lista de Productos</h2>
+
+      <!-- ============================================================
+          TABLA DE PRODUCTOS EXISTENTES
+      ============================================================ -->
       <table id="tablaProductos">
         <thead>
           <tr>
@@ -28,45 +48,80 @@
             <th>Descripción</th>
             <th>Precio</th>
             <th>Stock</th>
+
+            <!-- Dos columnas combinadas para acciones -->
             <th colspan="2">Acciones</th>
           </tr>
         </thead>
 
         <tbody>
           <% if (productos && productos.length > 0) { %>
+
+            <!-- Recorre todos los productos -->
             <% productos.forEach((producto) => { %>
               <tr>
+                <!-- Muestra los valores del producto -->
                 <td><%= producto.nombre %></td>
                 <td><%= producto.descripcion %></td>
                 <td>$<%= producto.precio %></td>
                 <td><%= producto.stock %></td>
 
-                <!-- Botones centrados -->
+                <!-- Acciones: Editar / Eliminar -->
                 <td colspan="2" class="text-center">
-                  <a href="/productos/editar/<%= producto.id %>" class="btn btn-warning btn-sm me-2">✏️ Editar</a>
 
-                  <form action="/productos/eliminar/<%= producto.id %>" method="POST" style="display:inline;"
-                        onsubmit="return confirmEliminarProducto(event, '<%= producto.nombre %>');">
+                  <!-- Botón de edición -->
+                  <a 
+                    href="/productos/editar/<%= producto.id %>" 
+                    class="btn btn-warning btn-sm me-2">
+                    ✏️ Editar
+                  </a>
+
+                  <!-- 
+                    Formulario para eliminar producto.
+                    Utiliza confirmación JS antes de enviar el POST.
+                  -->
+                  <form 
+                    action="/productos/eliminar/<%= producto.id %>" 
+                    method="POST" 
+                    style="display:inline;"
+                    onsubmit="return confirmEliminarProducto(event, '<%= producto.nombre %>');"
+                  >
                     <button type="submit" class="btn btn-danger btn-sm">🗑️ Eliminar</button>
                   </form>
+
                 </td>
               </tr>
             <% }) %>
+
           <% } else { %>
-            <tr><td colspan="6">No hay productos registrados.</td></tr>
+
+            <!-- Mostrar si no existen productos -->
+            <tr>
+              <td colspan="6">No hay productos registrados.</td>
+            </tr>
+
           <% } %>
         </tbody>
       </table>
+
     </main>
 
+    <!-- ============================================================
+        SCRIPT: Confirmación antes de eliminar un producto
+    ============================================================ -->
     <script>
-      // Confirmación antes de eliminar producto
       function confirmEliminarProducto(event, nombre) {
-        return confirm('¿Estás seguro que deseas eliminar el producto "' + nombre + '"? Esta acción no se puede deshacer.');
+        return confirm(
+          '¿Estás seguro que deseas eliminar el producto "' 
+          + nombre + 
+          '"? Esta acción no se puede deshacer.'
+        );
       }
     </script>
+
 </body>
 </html>
+
 
 
 

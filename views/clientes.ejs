@@ -1,27 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"> <!-- Configuración de caracteres para español -->
   <title>Clientes</title>
+  
+  <!-- Estilos globales -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body>
   <header>
-    <h1>Gestión de Clientes</h1>
+    <h1>Gestión de Clientes</h1> <!-- Título principal de la vista -->
   </header>
 
   <main>
+
+    <!-- ================================
+        FORMULARIO PARA REGISTRAR CLIENTES
+        ================================ -->
     <h2>Registro de Clientes</h2>
+
+    <!-- Formulario que envía los datos al backend -->
     <form id="clienteForm" action="/clientes/nuevo" method="POST">
-      <input type="text" id="nombreCliente" placeholder="Nombre" name="nombre" required>
-      <input type="text" id="identificacionCliente" placeholder="Identificación" name="identificacion" required>
-      <input type="email" id="emailCliente" placeholder="Email" name="email" required>
-      <input type="text" id="telefonoCliente" placeholder="Teléfono" name="telefono" required>
-      <input type="text" id="direccionCliente" placeholder="Dirección" name="direccion" required>
+
+      <!-- Campo: Nombre -->
+      <input 
+        type="text"
+        id="nombreCliente"
+        placeholder="Nombre"
+        name="nombre"
+        required
+      >
+
+      <!-- Campo: Identificación -->
+      <input 
+        type="text"
+        id="identificacionCliente"
+        placeholder="Identificación"
+        name="identificacion"
+        required
+      >
+
+      <!-- Campo: Email -->
+      <input 
+        type="email"
+        id="emailCliente"
+        placeholder="Email"
+        name="email"
+        required
+      >
+
+      <!-- Campo: Teléfono -->
+      <input 
+        type="text"
+        id="telefonoCliente"
+        placeholder="Teléfono"
+        name="telefono"
+        required
+      >
+
+      <!-- Campo: Dirección -->
+      <input 
+        type="text"
+        id="direccionCliente"
+        placeholder="Dirección"
+        name="direccion"
+        required
+      >
+
+      <!-- Botón para añadir el cliente -->
       <button type="submit">Agregar Cliente</button>
     </form>
 
+    <!-- ================================
+        TABLA DE CLIENTES REGISTRADOS
+        ================================ -->
     <h2>Lista de Clientes</h2>
+
     <table id="tablaClientes">
       <thead>
         <tr>
@@ -30,45 +85,76 @@
           <th>Teléfono</th>
           <th>Dirección</th>
           <th>Identificación</th>
-          <th colspan="2">Acciones</th>
+          <th colspan="2">Acciones</th> <!-- Editar / Eliminar -->
         </tr>
       </thead>
+
       <tbody>
+        <!-- Verifica si existen clientes -->
         <% if (clientes && clientes.length > 0) { %>
+
+          <!-- Recorre lista de clientes -->
           <% clientes.forEach(cliente => { %>
             <tr data-id="<%= cliente.id %>">
+
+              <!-- Datos del cliente -->
               <td><%= cliente.nombre %></td>
               <td><%= cliente.email %></td>
               <td><%= cliente.telefono %></td>
               <td><%= cliente.direccion %></td>
               <td><%= cliente.identificacion %></td>
 
-              <!-- Botones de acción centrados -->
+              <!-- Acciones de edición y eliminación -->
               <td colspan="2" class="text-center">
-                <a href="/clientes/editar/<%= cliente.id %>" class="btn btn-warning btn-sm me-2">✏️ Editar</a>
 
-                <form action="/clientes/eliminar/<%= cliente.id %>" method="POST" style="display:inline;"
-                      onsubmit="return confirmEliminarCliente(event, '<%= cliente.nombre %>');">
-                  <button type="submit" class="btn btn-danger btn-sm">🗑️ Eliminar</button>
+                <!-- Botón EDITAR -->
+                <a 
+                  href="/clientes/editar/<%= cliente.id %>" 
+                  class="btn btn-warning btn-sm me-2"
+                >
+                  ✏️ Editar
+                </a>
+
+                <!-- Botón ELIMINAR con confirmación -->
+                <form 
+                  action="/clientes/eliminar/<%= cliente.id %>" 
+                  method="POST" 
+                  style="display:inline;"
+                  onsubmit="return confirmEliminarCliente(event, '<%= cliente.nombre %>');"
+                >
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    🗑️ Eliminar
+                  </button>
                 </form>
               </td>
+
             </tr>
           <% }) %>
+
         <% } else { %>
-          <tr><td colspan="7">No hay clientes registrados.</td></tr>
+          <!-- Si no hay clientes -->
+          <tr>
+            <td colspan="7">No hay clientes registrados.</td>
+          </tr>
         <% } %>
       </tbody>
     </table>
   </main>
 
+  <!-- ================================
+      SCRIPT: Confirmación de eliminación
+      ================================ -->
   <script>
-    // Confirmación antes de eliminar
+    // Función que muestra un mensaje de confirmación
     function confirmEliminarCliente(event, nombre) {
       return confirm('¿Estás seguro que deseas eliminar al cliente "' + nombre + '"?');
     }
   </script>
+
 </body>
 </html>
+
+
 
 
 

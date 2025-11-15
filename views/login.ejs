@@ -1,16 +1,40 @@
-
-
+<!-- Contenedor principal del formulario de login -->
 <div class="login-container" role="main" aria-labelledby="loginTitle">
-  <img src="/images/logo.png" alt="Logo" class="logo" onerror="this.style.display='none'">
+
+  <!-- Logo superior (se oculta si no carga) -->
+  <img 
+    src="/images/logo.png" 
+    alt="Logo" 
+    class="logo" 
+    onerror="this.style.display='none'"
+  >
+
+  <!-- Título accesible -->
   <h2 id="loginTitle">Iniciar Sesión</h2>
 
-  <div class="divider"><span>Usa tu cuenta de Google</span></div>
+  <!-- Separador visual con texto -->
+  <div class="divider">
+    <span>Usa tu cuenta de Google</span>
+  </div>
 
-  <a href="/auth/google" class="google-btn" role="button" aria-label="Iniciar sesión con Google">
-    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="google-icon">
+  <!-- Botón para iniciar sesión con Google -->
+  <a 
+    href="/auth/google" 
+    class="google-btn" 
+    role="button" 
+    aria-label="Iniciar sesión con Google"
+  >
+    <!-- Icono oficial de Google -->
+    <img 
+      src="https://developers.google.com/identity/images/g-logo.png" 
+      alt="Google" 
+      class="google-icon"
+    >
     Iniciar sesión con Google
   </a>
+
 </div>
+
 
 
 

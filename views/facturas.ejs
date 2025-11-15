@@ -4,17 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <title>Facturas</title>
+
+  <!-- Hoja de estilos general -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
 <body>
+
+  <!-- ============================== -->
+  <!-- ENCABEZADO DE LA PÁGINA       -->
+  <!-- ============================== -->
   <header>
     <h1>Facturas</h1>
   </header>
 
   <main>
+
+    <!-- Botón para crear nueva factura -->
     <a href="/facturas/nuevo" class="btn-estilo1">Nueva Factura</a>
 
     <h2>Listado de facturas</h2>
+
+    <!-- ============================== -->
+    <!-- TABLA PRINCIPAL DE FACTURAS    -->
+    <!-- ============================== -->
     <table id="tablaFacturas">
       <thead>
         <tr>
@@ -26,56 +38,82 @@
           <th>Acciones</th>
         </tr>
       </thead>
+
       <tbody>
         <% if (facturas && facturas.length > 0) { %>
+
+          <!-- Recorremos todas las facturas -->
           <% for (const f of facturas) { %>
             <tr>
+
+              <!-- Datos principales -->
               <td><%= f.numero_factura %></td>
               <td><%= f.fecha_emision %></td>
+
+              <!-- Aquí se muestra el ID del cliente (puedes reemplazar esto con el nombre si lo unes con JOIN) -->
               <td><%= f.cliente_id %></td>
+
+              <!-- Total formateado -->
               <td><%= parseFloat(f.total).toFixed(2) %></td>
+
               <td><%= f.estado %></td>
+
+              <!-- ============================== -->
+              <!-- ACCIONES: Ver / Enviar Factus  -->
+              <!-- ============================== -->
               <td style="text-align:center;">
                 
-                <!-- Botón Ver -->
+                <!-- Ver factura completa -->
                 <a 
-                  href="/facturas/ver/<%= f.id %>" 
+                  href="/facturas/ver/<%= f.id %>"
                   class="btn-ver"
                   title="Ver factura">
                   👁 Ver
                 </a>
 
-                <!-- Botón Enviar a Factus (SIN recargar la página) -->
+                <!-- Enviar a Factus -->
+                <!-- Se hace por fetch sin recargar la página -->
                 <button 
-                onclick="enviarFactus('<%= f.id %>')" 
-                class="btn btn-success" 
-                style="margin-left: 5px;">
-                🚀 Enviar a Factus
+                  onclick="enviarFactus('<%= f.id %>')" 
+                  class="btn btn-success" 
+                  style="margin-left: 5px;">
+                  🚀 Enviar a Factus
                 </button>
-
 
               </td>
             </tr>
           <% } %>
+
         <% } else { %>
-          <tr><td colspan="6">No hay facturas registradas.</td></tr>
+
+          <!-- Cuando no hay registros -->
+          <tr>
+            <td colspan="6">No hay facturas registradas.</td>
+          </tr>
+
         <% } %>
       </tbody>
     </table>
   </main>
 
-  <!-- SCRIPT PARA ENVIAR FACTURA A FACTUS Y ABRIR EL PDF -->
+  <!-- =========================================== -->
+  <!-- SCRIPT que gestiona el envío a FACTUS       -->
+  <!-- =========================================== -->
 <script>
 async function enviarFactus(id) {
   try {
+
+    // Petición al backend para enviar la factura a Factus
     const respuesta = await fetch('/factus/enviar/' + id);
     const data = await respuesta.json();
 
+    // Si Factus devuelve error
     if (!data.ok) {
       alert("❌ Error: " + JSON.stringify(data.error));
       return;
     }
 
+    // Si llega un PDF, abrirlo
     if (data.pdf_url) {
       window.open(data.pdf_url, "_blank");
     } else {
@@ -83,13 +121,15 @@ async function enviarFactus(id) {
     }
 
   } catch (err) {
+
     console.error(err);
     alert("❌ Error al conectar con el servidor.");
+
   }
 }
 </script>
 
-
 </body>
 </html>
+
 

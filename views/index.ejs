@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Inicio - Facturación Electrónica</title>
+
+  <!-- Hoja de estilos principal -->
   <link rel="stylesheet" href="public/css/style.css">
+
   <style>
     /* --- Estilos específicos para esta página --- */
 
-    /* Centrar el encabezado y hacer grande el título */
+    /* Estilos del encabezado */
     header {
       text-align: center;
-      background-color: #13344a; /* mantiene el tono azul elegante */
+      background-color: #13344a; /* tono azul elegante */
       color: #d9d9d9;
       padding: 40px 0;
     }
@@ -21,7 +24,7 @@
       margin: 0;
     }
 
-    /* Caja de bienvenida */
+    /* Caja central de bienvenida */
     .welcome-box {
       background-color: #e7eaf5;
       border: 3px solid #0c0931;
@@ -45,11 +48,11 @@
       margin-bottom: 30px;
     }
 
-    /* Logo grande y centrado debajo del texto */
+    /* Logo centrado y con animación */
     .logo-centro {
       display: block;
       margin: 0 auto;
-      width: 250px; /* tamaño grande */
+      width: 250px;
       height: auto;
       transition: transform 0.3s ease;
     }
@@ -58,6 +61,7 @@
       transform: scale(1.05);
     }
 
+    /* Fondo general y fuente */
     body {
       background-color: #cfd6de;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -67,27 +71,32 @@
 
 <body>
 
-  <!-- Encabezado principal -->
+  <!-- Encabezado principal con el título del panel -->
   <header>
     <h1>Panel de Control</h1>
   </header>
 
-  <!-- Sección de bienvenida -->
+  <!-- Contenedor principal de bienvenida -->
   <main>
     <div class="welcome-box">
+
+      <!-- Mensaje introductorio -->
       <h2>Bienvenido al sistema de Facturación Electrónica NeoForce</h2>
       <h3>¡Su solución integral para la gestión de documentos electrónicos está aquí!</h3>
 
-      <!-- Logo grande y centrado -->
+      <!-- Logo principal -->
       <img src="images/logo.png" alt="Logo NEOFACTURA" class="logo-centro">
 
       <p>Seleccione una opción del menú para comenzar.</p>
     </div>
   </main>
 
+  <!-- Script principal -->
   <script src="js/main.js"></script>
+
 </body>
 </html>
+
 
 
 

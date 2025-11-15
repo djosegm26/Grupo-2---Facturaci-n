@@ -4,7 +4,7 @@ import passport from "../passport/google.js";
 const router = express.Router();
 
 /**
- * 🔐 Iniciar sesión con Google
+ * Iniciar sesión con Google
  */
 router.get(
   "/google",
@@ -12,7 +12,7 @@ router.get(
 );
 
 /**
- * 🔁 Callback de Google
+ * Callback de Google
  * - Si la autenticación es exitosa → redirige al panel principal (/index)
  * - Si falla → regresa al login (/)
  */
@@ -28,7 +28,7 @@ router.get(
 );
 
 /**
- * 🚪 Logout (cerrar sesión)
+ * -Logout (cerrar sesión)
  * - Destruye la sesión de Passport
  * - Redirige al login (/)
  */

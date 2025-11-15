@@ -3,28 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Editar Servicio</title>
+
+  <!-- Hoja de estilos del proyecto -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body>
   <header>
     <h1>Editar Servicio</h1>
   </header>
 
   <main>
+    <!-- Formulario para editar un servicio existente -->
+    <!-- La acción envía los datos al backend por método POST -->
+    <!-- Se usa el ID del servicio para actualizar el correcto -->
     <form action="/servicios/editar/<%= servicio.id %>" method="POST" id="formEditarServicio">
+
+      <!-- Campo: Nombre del servicio -->
       <label>Nombre:</label>
       <input type="text" name="nombre" value="<%= servicio.nombre %>" required>
 
+      <!-- Campo: Descripción del servicio -->
       <label>Descripción:</label>
       <input type="text" name="descripcion" value="<%= servicio.descripcion %>">
 
+      <!-- Campo: Precio del servicio -->
       <label>Precio:</label>
       <input type="number" name="precio" value="<%= servicio.precio %>" required step="0.01">
 
+      <!-- Botón para guardar los cambios -->
       <button type="submit">Guardar Cambios</button>
+
+      <!-- Enlace para cancelar y volver a la lista de servicios -->
       <a href="/servicios" class="btn-cancelar">Cancelar</a>
     </form>
   </main>
+
 </body>
 </html>
+
 

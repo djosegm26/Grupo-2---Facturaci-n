@@ -1,36 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Editar Cliente</title>
+  <meta charset="UTF-8"> <!-- Configuración de caracteres -->
+  <title>Editar Cliente</title> <!-- Título de la pestaña -->
+
+  <!-- Hoja de estilos principal -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body>
   <header>
-    <h1>Editar Cliente</h1>
+    <h1>Editar Cliente</h1> <!-- Encabezado principal de la página -->
   </header>
 
   <main>
+    <!-- 
+      Formulario para editar un cliente.
+      El action envía la información al backend usando el ID del cliente.
+      Método POST para modificar datos.
+    -->
     <form action="/clientes/editar/<%= cliente.id %>" method="POST" id="formEditarCliente">
+
+      <!-- Campo: Nombre del cliente -->
       <label>Nombre:</label>
-      <input type="text" name="nombre" value="<%= cliente.nombre %>" required>
+      <input 
+        type="text" 
+        name="nombre" 
+        value="<%= cliente.nombre %>" 
+        required
+      >
 
+      <!-- Campo: Identificación del cliente -->
       <label>Identificación:</label>
-      <input type="text" name="identificacion" value="<%= cliente.identificacion %>" required>
+      <input 
+        type="text" 
+        name="identificacion" 
+        value="<%= cliente.identificacion %>" 
+        required
+      >
 
+      <!-- Campo: Email del cliente -->
       <label>Email:</label>
-      <input type="email" name="email" value="<%= cliente.email %>" required>
+      <input 
+        type="email" 
+        name="email" 
+        value="<%= cliente.email %>" 
+        required
+      >
 
+      <!-- Campo: Teléfono del cliente -->
       <label>Teléfono:</label>
-      <input type="text" name="telefono" value="<%= cliente.telefono %>" required>
+      <input 
+        type="text" 
+        name="telefono" 
+        value="<%= cliente.telefono %>" 
+        required
+      >
 
+      <!-- Campo: Dirección del cliente -->
       <label>Dirección:</label>
-      <input type="text" name="direccion" value="<%= cliente.direccion %>" required>
+      <input 
+        type="text" 
+        name="direccion" 
+        value="<%= cliente.direccion %>" 
+        required
+      >
 
+      <!-- Botón para enviar el formulario -->
       <button type="submit">Guardar Cambios</button>
+
+      <!-- Botón para volver a la lista de clientes -->
       <a href="/clientes" class="btn-cancelar">Cancelar</a>
     </form>
   </main>
+
 </body>
 </html>
 

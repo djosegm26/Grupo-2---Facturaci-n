@@ -3,15 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Factura <%= factura.numero_factura %></title>
+
+  <!-- Estilos generales del sistema -->
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Estilos internos solo para esta vista -->
   <style>
     body { font-family: Arial, sans-serif; margin: 2rem; }
     header h1 { margin-bottom: 1rem; }
+
     table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
     th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
     th { background-color: #f5f5f5; }
+
     section { margin-bottom: 1.5rem; }
 
+    /* Botones */
     .btn {
       display: inline-block;
       background: #14334d;
@@ -21,7 +28,9 @@
       text-decoration: none;
       margin-top: 1rem;
     }
-    .btn:hover { background: #0f2638; }
+    .btn:hover {
+      background: #0f2638;
+    }
 
     .btn-success {
       background: #14334d;
@@ -33,22 +42,38 @@
 </head>
 
 <body>
+
+  <!-- =============================== -->
+  <!-- ENCABEZADO: número de factura   -->
+  <!-- =============================== -->
   <header>
     <h1>Factura N° <%= factura.numero_factura %></h1>
   </header>
 
+  <!-- =============================== -->
+  <!-- INFORMACIÓN GENERAL DE FACTURA  -->
+  <!-- =============================== -->
   <section>
-    <p><strong>Fecha de emisión:</strong> 
+    <p>
+      <strong>Fecha de emisión:</strong>
       <%= new Date(factura.fecha_emision).toISOString().slice(0,10) %>
     </p>
+
+    <!-- IDs simples (relaciones con tablas cliente/usuario) -->
     <p><strong>ID Cliente:</strong> <%= factura.cliente_id %></p>
     <p><strong>ID Usuario (Emisor):</strong> <%= factura.usuario_id %></p>
+
+    <!-- Estado local (pendiente, emitida, etc.) -->
     <p><strong>Estado:</strong> <%= factura.estado %></p>
   </section>
 
   <hr>
 
+  <!-- =============================== -->
+  <!-- LISTA DE DETALLES DE LA FACTURA -->
+  <!-- =============================== -->
   <h3>Detalles de la factura</h3>
+
   <table>
     <thead>
       <tr>
@@ -60,11 +85,16 @@
         <th>Subtotal</th>
       </tr>
     </thead>
+
     <tbody>
       <% if (detalles.length > 0) { %>
+
+        <!-- Recorrido de cada línea de detalle -->
         <% detalles.forEach((d, i) => { %>
           <tr>
             <td><%= i + 1 %></td>
+
+            <!-- Determinar si es producto o servicio según su ID -->
             <td>
               <% if (d.producto_id) { %>
                 Producto (ID: <%= d.producto_id %>)
@@ -74,27 +104,43 @@
                 -
               <% } %>
             </td>
+
+            <!-- Descripción opcional -->
             <td><%= d.descripcion || "-" %></td>
+
             <td><%= d.cantidad %></td>
+
+            <!-- Formato de moneda -->
             <td>₡<%= parseFloat(d.precio_unitario || 0).toFixed(2) %></td>
             <td>₡<%= parseFloat(d.subtotal || 0).toFixed(2) %></td>
           </tr>
         <% }) %>
+
       <% } else { %>
-        <tr><td colspan="6" style="text-align:center;">Sin detalles registrados</td></tr>
+        <!-- Cuando no hay detalles -->
+        <tr>
+          <td colspan="6" style="text-align:center;">Sin detalles registrados</td>
+        </tr>
       <% } %>
     </tbody>
   </table>
 
   <hr>
 
+  <!-- =============================== -->
+  <!-- TOTALES: subtotal, impuestos... -->
+  <!-- =============================== -->
   <section style="margin-top: 1rem;">
     <p><strong>Subtotal:</strong> ₡<%= parseFloat(factura.subtotal || 0).toFixed(2) %></p>
     <p><strong>Impuestos:</strong> ₡<%= parseFloat(factura.impuestos || 0).toFixed(2) %></p>
     <p><strong>Total:</strong> ₡<%= parseFloat(factura.total || 0).toFixed(2) %></p>
   </section>
 
-  <!-- 🔥 Botón para enviar a Factus SIN recargar -->
+  <!-- =============================== -->
+  <!-- BOTÓN PARA ENVIAR A FACTUS      -->
+  <!-- =============================== -->
+
+  <!-- Enviar sin recargar la página -->
   <button 
       class="btn btn-success"
       onclick="enviarFactus('<%= factura.id %>')">
@@ -103,26 +149,29 @@
 
   <br><br>
 
+  <!-- Volver atrás -->
   <a href="/facturas" class="btn">⬅ Volver al listado</a>
 
 
-  <!-- =========================== -->
-  <!-- 🔥 SCRIPT PARA FACTUS      -->
-  <!-- =========================== -->
+  <!-- =================================================== -->
+  <!-- SCRIPT: llamado fetch que envía factura hacia Factus -->
+  <!-- =================================================== -->
   <script>
     async function enviarFactus(id) {
       try {
+
         const respuesta = await fetch('/factus/enviar/' + id);
         const data = await respuesta.json();
 
         console.log("RESP FACTUS:", data);
 
+        // Si Factus responde error
         if (!data.ok) {
           alert("❌ Error: " + JSON.stringify(data.error));
           return;
         }
 
-        // Abrir PDF si Factus lo devuelve
+        // Si se recibe el PDF desde Factus, abrirlo
         if (data.pdf_url) {
           window.open(data.pdf_url, "_blank");
         }
@@ -138,6 +187,5 @@
 
 </body>
 </html>
-
 
 

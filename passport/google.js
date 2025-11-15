@@ -1,37 +1,45 @@
-import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import Usuario from "../models/Usuario.js";
+import passport from "passport";                                   // Middleware de autenticación
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"; // Estrategia de OAuth2 con Google
+import Usuario from "../models/Usuario.js";                        // Modelo de usuario para consultar/crear registros
 
 
+// ===============================
+//   CONFIGURACIÓN DE GOOGLE OAUTH
+// ===============================
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      // Credenciales del proyecto de Google Cloud
+      clientID: process.env.GOOGLE_CLIENT_ID,        // ID de cliente de Google
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,// Secret asociado al cliente
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,  // URL a la que Google redirige tras autenticarse
     },
+
+    // Función ejecutada después de que Google valida al usuario
     async (accessToken, refreshToken, profile, done) => {
       try {
-        // Obtener el correo del perfil de Google
+        // Extraer el correo principal del usuario de Google
         const email = profile.emails[0].value;
 
-        // Buscar usuario por el campo 'email'
+        // Buscar si el usuario ya existe en la base de datos
         let usuario = await Usuario.findOne({ where: { email } });
 
+        // Si no existe, crearlo en la BD
         if (!usuario) {
-          // Si no existe, lo creamos
           usuario = await Usuario.create({
-            nombre: profile.displayName,
-            email,
-            googleId: profile.id,
-            rol: "cliente", // puedes ajustarlo si tu modelo usa otro valor por defecto
-            estado: true,   // para evitar problemas si el modelo requiere este campo
+            nombre: profile.displayName,  // Nombre mostrado en Google
+            email,                        // Correo extraído del perfil
+            googleId: profile.id,         // ID único de Google
+            rol: "cliente",               // Rol por defecto (puedes adaptarlo)
+            estado: true,                 // Marca el usuario como activo
           });
+
           console.log("🆕 Nuevo usuario registrado con Google:", usuario.email);
         } else {
           console.log("✅ Usuario existente con Google:", usuario.email);
         }
 
+        // Finaliza la autenticación y pasa el usuario a Passport
         return done(null, usuario);
       } catch (err) {
         console.error("❌ Error al autenticar usuario con Google:", err);
@@ -41,12 +49,17 @@ passport.use(
   )
 );
 
-// Serializar usuario (guarda el ID en la sesión)
+
+// ===============================
+//   MANEJO DE SESIONES CON PASSPORT
+// ===============================
+
+// Serializa: guarda solo el ID del usuario en la sesión
 passport.serializeUser((usuario, done) => {
   done(null, usuario.id);
 });
 
-// Deserializar usuario (recupera el usuario desde la BD por su ID)
+// Deserializa: busca el usuario completo usando el ID almacenado
 passport.deserializeUser(async (id, done) => {
   try {
     const usuario = await Usuario.findByPk(id);
@@ -56,6 +69,8 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-export default passport;
+
+export default passport;  // Exportamos la configuración final de passport
+
 
 

@@ -4,34 +4,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Nueva Factura</title>
+
+  <!-- Hoja de estilos del proyecto -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body>
-  <header><h1>Registrar nueva factura</h1></header>
+  <header>
+    <h1>Registrar nueva factura</h1>
+  </header>
 
   <main>
+
+    <!-- Formulario principal de registro de factura -->
     <form id="facturaForm">
+
+      <!-- Número de factura ingresado manualmente -->
       <div>
         <label>Número factura</label>
         <input id="numeroFactura" name="numero_factura" required>
       </div>
+
+      <!-- Fecha de emisión autocompletada con la fecha actual -->
       <div>
         <label>Fecha emisión</label>
-        <input id="fechaEmision" type="date" name="fecha_emision" required value="<%= new Date().toISOString().slice(0,10) %>">
+        <input id="fechaEmision" type="date" name="fecha_emision" required
+              value="<%= new Date().toISOString().slice(0,10) %>">
       </div>
+
+      <!-- Selección del cliente -->
       <div>
         <label>Cliente</label>
         <select id="clienteSelect" required>
           <option value="">-- Selecciona cliente --</option>
+
+          <!-- Iteración de lista de clientes -->
           <% clientes.forEach(c => { %>
-            <option value="<%= c.id %>"><%= c.nombre %> - <%= c.identificacion %></option>
+            <option value="<%= c.id %>">
+              <%= c.nombre %> - <%= c.identificacion %>
+            </option>
           <% }) %>
         </select>
       </div>
+
+      <!-- Selección del usuario/emisor -->
       <div>
         <label>Usuario (emisor)</label>
         <select id="usuarioSelect" required>
           <option value="">-- Selecciona usuario --</option>
+
           <% usuarios.forEach(u => { %>
             <option value="<%= u.id %>"><%= u.nombre %></option>
           <% }) %>
@@ -40,19 +61,28 @@
 
       <hr>
 
+      <!-- ==============================
+          SECCIÓN: ITEMS DE LA FACTURA
+          ============================== -->
       <h3>Items</h3>
+
+      <!-- Contenedor de selección y entrada de datos -->
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+
+        <!-- Tipo de item: producto o servicio -->
         <label>Tipo</label>
         <select id="tipoItem">
           <option value="producto">Producto</option>
           <option value="servicio">Servicio</option>
         </select>
 
-        <!-- Producto -->
+        <!-- Lista de productos -->
         <div>
           <label>Producto</label>
           <select id="productoSelect">
             <option value="">-- Producto --</option>
+
+            <!-- Productos disponibles -->
             <% productos.forEach(p => { %>
               <option value="<%= p.id %>" data-precio="<%= p.precio %>">
                 <%= p.nombre %> (₡<%= p.precio %>)
@@ -61,11 +91,12 @@
           </select>
         </div>
 
-        <!-- Servicio -->
+        <!-- Lista de servicios (oculta inicialmente) -->
         <div>
           <label>Servicio</label>
           <select id="servicioSelect" style="display:none;">
             <option value="">-- Servicio --</option>
+
             <% servicios.forEach(s => { %>
               <option value="<%= s.id %>" data-precio="<%= s.precio %>">
                 <%= s.nombre %> (₡<%= s.precio %>)
@@ -74,25 +105,30 @@
           </select>
         </div>
 
+        <!-- Descripción opcional -->
         <div>
           <label>Descripción</label>
           <input id="descItem" placeholder="Descripción (opcional)">
         </div>
 
+        <!-- Cantidad -->
         <div>
           <label>Cantidad</label>
           <input id="cantidadItem" type="number" min="1" value="1">
         </div>
 
+        <!-- Precio unitario (editable en caso de querer modificarlo) -->
         <div>
           <label>Precio</label>
           <input id="precioItem" type="number" step="0.01" value="0">
         </div>
 
-        <!-- ✅ type="button" evita recarga del form -->
+        <!-- Botón que agrega el ítem a la tabla sin recargar el formulario -->
         <button id="agregarItem" type="button" class="btn">Agregar</button>
+
       </div>
 
+      <!-- Tabla donde se agregan los ítems seleccionados -->
       <table id="itemsFactura">
         <thead>
           <tr>
@@ -104,30 +140,37 @@
             <th>Acción</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <!-- Se llena dinámicamente con JS -->
+        </tbody>
       </table>
 
+      <!-- Totales calculados con JavaScript -->
       <div>
         <label>Subtotal:</label>
         <span id="subtotal">0.00</span>
       </div>
+
       <div>
         <label>Impuestos:</label>
         <input id="impuestos" type="number" step="0.01" value="0">
       </div>
+
       <div>
         <label>Total:</label>
         <span id="total">0.00</span>
       </div>
 
+      <!-- Botones finales -->
       <div style="margin-top:1em;">
         <button type="submit" class="btn">Registrar factura</button>
         <a href="/facturas" class="btn">Cancelar</a>
       </div>
+
     </form>
   </main>
 
-  <!-- ✅ Asegúrate que la ruta sea correcta -->
+  <!-- Script que maneja toda la lógica del formulario -->
   <script src="/js/facturas.js"></script>
 </body>
 </html>

@@ -1,28 +1,42 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../db/connection.js";
+import { DataTypes } from "sequelize";          // Tipos de datos provistos por Sequelize
+import sequelize from "../db/connection.js";    // Conexión configurada a la base de datos
 
-const Producto = sequelize.define("Producto", {
-  nombre: {
-    type: DataTypes.STRING(150),
-    allowNull: false,
-  },
-  descripcion: {
-    type: DataTypes.STRING(255),
-  },
-  precio: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false,
-  },
-  stock: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-}, {
-  tableName: "productos",
-  timestamps: true,
-  createdAt: "created_at",
-  updatedAt: false,
-});
+// Modelo "Producto" mapeado a la tabla "productos"
+const Producto = sequelize.define(
+  "Producto",
+  {
+    // Nombre del producto (requerido, hasta 150 caracteres)
+    nombre: {
+      type: DataTypes.STRING(150),
+      allowNull: false,
+    },
 
-export default Producto;
+    // Descripción opcional del producto (hasta 255 caracteres)
+    descripcion: {
+      type: DataTypes.STRING(255),
+    },
+
+    // Precio unitario del producto; formato decimal con 2 decimales
+    precio: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+
+    // Cantidad en inventario (entero, requerido)
+    stock: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "productos",       // Nombre explícito de la tabla en la BD
+    timestamps: true,             // Habilita timestamps (createdAt por defecto)
+    createdAt: "created_at",      // Renombra createdAt a created_at
+    updatedAt: false,             // No se utiliza updatedAt en esta tabla
+  }
+);
+
+export default Producto;          // Exporta el modelo para usarlo en otras partes del proyecto
+
+
 

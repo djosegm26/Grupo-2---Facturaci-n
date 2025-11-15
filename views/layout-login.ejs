@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Metadatos básicos -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Título dinámico -->
   <title><%= title || "NeoForce - Login" %></title>
+
+  <!-- Estilos globales -->
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Estilos específicos del login -->
   <style>
+    /* Fondo del body para la vista de login */
     body.login-body {
       margin: 0;
       height: 100vh;
@@ -17,6 +25,7 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
+    /* Contenedor principal del formulario */
     .login-container {
       background: #f8f8f8;
       padding: 40px 30px;
@@ -27,16 +36,19 @@
       max-width: 90%;
     }
 
+    /* Logo superior */
     .logo {
       width: 100px;
       margin-bottom: 10px;
     }
 
+    /* Título del formulario */
     h2 {
       margin: 10px 0 15px;
       color: #333;
     }
 
+    /* Línea divisoria con texto */
     .divider {
       margin: 20px 0;
       border-top: 1px solid #ccc;
@@ -53,6 +65,7 @@
       color: #666;
     }
 
+    /* Botón de login con Google */
     .google-btn {
       display: flex;
       align-items: center;
@@ -74,11 +87,13 @@
       transform: scale(1.03);
     }
 
+    /* Icono de Google */
     .google-icon {
       width: 22px;
       height: 22px;
     }
 
+    /* Footer inferior */
     footer {
       margin-top: 25px;
       text-align: center;
@@ -87,13 +102,20 @@
     }
   </style>
 </head>
+
 <body class="login-body">
+
+  <!-- Contenido dinámico (login.ejs se inserta aquí) -->
   <%- body %>
 
+  <!-- Pie de página -->
   <footer>
     © 2025 NeoForce - Todos los derechos reservados
   </footer>
+
 </body>
 </html>
+
+
 
 

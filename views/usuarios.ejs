@@ -2,20 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+
+  <!-- Título dinámico de la página; si no hay título, usa "Gestión de Usuarios" -->
   <title><%= title || "Gestión de Usuarios" %></title>
+
+  <!-- Hoja de estilos general -->
   <link rel="stylesheet" href="/public/css/style.css">
 </head>
+
 <body>
   <header>
+    <!-- Encabezado principal -->
     <h1>Gestión de Usuarios</h1>
   </header>
 
   <main>
+    <!-- Título de la sección de listado -->
     <h2>Lista de Usuarios</h2>
 
+    <!-- Tabla donde se muestran los usuarios -->
     <table id="tablaUsuarios">
       <thead>
         <tr>
+          <!-- Encabezados de la tabla -->
           <th>ID</th>
           <th>Nombre</th>
           <th>Email</th>
@@ -24,14 +33,24 @@
           <th>Google ID</th>
         </tr>
       </thead>
+
       <tbody>
+        <!-- Verifica si existen usuarios -->
         <% if (usuarios && usuarios.length > 0) { %>
+
+          <!-- Recorre cada usuario recibido desde el backend -->
           <% usuarios.forEach(usuario => { %>
+
+            <!-- Cada fila representa un usuario; data-id sirve para referencia -->
             <tr data-id="<%= usuario.id %>">
+
+              <!-- Datos del usuario -->
               <td><%= usuario.id %></td>
               <td><%= usuario.nombre %></td>
               <td><%= usuario.email %></td>
               <td><%= usuario.rol %></td>
+
+              <!-- Estado: Activo / Inactivo -->
               <td>
                 <% if (usuario.estado) { %>
                   <span class="badge bg-success">Activo</span>
@@ -39,17 +58,28 @@
                   <span class="badge bg-danger">Inactivo</span>
                 <% } %>
               </td>
+
+              <!-- Google ID (si no existe, se muestra un guion largo) -->
               <td><%= usuario.googleId || "—" %></td>
+
             </tr>
           <% }) %>
+
         <% } else { %>
-          <tr><td colspan="6">No hay usuarios registrados.</td></tr>
+
+          <!-- Caso cuando no hay usuarios registrados -->
+          <tr>
+            <td colspan="6">No hay usuarios registrados.</td>
+          </tr>
+
         <% } %>
       </tbody>
     </table>
   </main>
+
 </body>
 </html>
+
 
 
 

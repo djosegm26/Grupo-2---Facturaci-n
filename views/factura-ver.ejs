@@ -144,7 +144,7 @@
   <button 
       class="btn btn-success"
       onclick="enviarFactus('<%= factura.id %>')">
-      🚀 Enviar a Factus
+        Enviar a Factus
   </button>
 
   <br><br>
@@ -167,7 +167,7 @@
 
         // Si Factus responde error
         if (!data.ok) {
-          alert("❌ Error: " + JSON.stringify(data.error));
+          alert(" Error: " + JSON.stringify(data.error));
           return;
         }
 
@@ -180,7 +180,7 @@
 
       } catch (err) {
         console.error(err);
-        alert("❌ Error enviando a Factus.");
+        alert(" Error enviando a Factus.");
       }
     }
   </script>

@@ -107,18 +107,18 @@ app.get("/logout", (req, res, next) => {
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Conexión a MySQL exitosa");
+    console.log("Conexión a MySQL exitosa");
 
     // Sincronizar tablas según modelos
-    await sequelize.sync({ alter: true });
-    console.log("📦 Tablas sincronizadas correctamente");
+    await sequelize.sync({ force: false });
+    console.log("Tablas sincronizadas correctamente");
 
     // Iniciar servidor después de conectar a DB
     app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("❌ Error al conectar o sincronizar la base de datos:", error);
+    console.error("Error al conectar o sincronizar la base de datos:", error);
   }
 })();
 
